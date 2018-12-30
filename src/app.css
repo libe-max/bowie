@@ -1,12 +1,11 @@
 /* * * * * * * * * * * * * * * * * * * * * * * * * * * * *
  * 
- * Page layout
+ * Page main layout
  *
  * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 
 /* Default state */
 .libe-labowie {
-  margin: 0 auto;
   max-width: 100rem;
   background: white;
   display: flex;
@@ -18,7 +17,6 @@
   flex-shrink: 0;
   height: 100vh;
   position: relative;
-  background: coral;
 }
 
 .libe-labowie__cover-panel {
@@ -28,11 +26,18 @@
   background: dodgerblue;
 }
 
-.libe-labowie__singles-panel {
-  height: 2000px;
+.libe-labowie__content-panel {  
   width: 60rem;
+  padding: 4rem 6rem;
   flex-grow: 0;
   flex-shrink: 0;
+}
+
+.libe-labowie__content-panel
+  .libe-labowie__chapter-name-mobile {
+    margin-left: -6rem;
+    margin-right: -6rem;
+    background: dodgerblue;
 }
 
 /* Intro state */
@@ -41,7 +46,7 @@
   width: 100rem;
 }
 
-.libe-labowie_intro .libe-labowie__singles-panel {
+.libe-labowie_intro .libe-labowie__content-panel {
   display: none;
 }
 
@@ -51,7 +56,7 @@
     width: 40vw;
   }
 
-  .libe-labowie__singles-panel {
+  .libe-labowie__content-panel {
     width: 60vw;
   }
 
@@ -75,10 +80,192 @@
     position: relative;
   }
 
+  .libe-labowie__content-panel {
+    width: 100%;
+    padding: 3rem 4rem;
+  }
+
+  .libe-labowie__content-panel
+    .libe-labowie__chapter-name-mobile {
+      margin-left: -4rem;
+      margin-right: -4rem;
+      background: red;
+  }
+
+  .libe-labowie__content-panel
+    .libe-labowie__items {
+      margin-left: -4rem;
+      margin-right: -4rem;
+  }
+
   .libe-labowie_intro .libe-labowie__cover-panel-wrapper,
   .libe-labowie_intro .libe-labowie__cover-panel {
     width: 100%;
   }
 }
 
+@media screen and (max-width: 40rem) {
+  .libe-labowie__content-panel {
+    padding: 2rem 1.5rem;
+  }
+
+  .libe-labowie__content-panel
+    .libe-labowie__chapter-name-mobile {
+      margin-left: -1.5rem;
+      margin-right: -1.5rem;
+      background: red;
+  }
+
+  .libe-labowie__content-panel
+    .libe-labowie__items {
+      margin-left: -1.5rem;
+      margin-right: -1.5rem;
+  }
+}
+
+/* * * * * * * * * * * * * * * * * * * * * * * * * * * * *
+ * 
+ * Content layout
+ *
+ * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
+
+.libe-labowie__intro,
+.libe-labowie__chapters,
+.libe-labowie__chapter {
+  margin-bottom: 4rem;
+}
+
+@media screen and (max-width: 63rem) {
+  .libe-labowie__intro,
+  .libe-labowie__chapters,
+  .libe-labowie__chapter {
+    margin-bottom: 3rem;
+  }
+}
+@media screen and (max-width: 40rem) {
+  .libe-labowie__intro,
+  .libe-labowie__chapters,
+  .libe-labowie__chapter {
+    margin-bottom: 1.5rem;
+  }
+}
+
+/* * * * * * * * * * * * * * * * * * * * * * * * * * * * *
+ * 
+ * Chapter content
+ *
+ * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
+
+.libe-labowie__chapter-name {
+  margin-bottom: 2rem;
+}
+
+.libe-labowie__chapter-name-mobile {
+  display: none;
+  flex-direction: column;
+  justify-content: flex-end;
+  align-items: center;
+  text-align: center;
+}
+
+.libe-labowie__chapter-content {
+  margin-bottom: 2rem;
+}
+
+.libe-labowie__items {
+  display: flex;
+  margin: 0 -.5rem;
+  flex-wrap: wrap;
+}
+
+.libe-labowie__item {
+  flex-grow: 0;
+  flex-shrink: 0;
+  cursor: pointer;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  width: calc((100% - 3rem) / 3);
+  margin: 0 .5rem 2rem;
+}
+
+.libe-labowie__item .lblb-paragraph {
+  text-align: center;
+  font-size: 1rem;
+  line-height: 1.5rem;
+}
+
+.libe-labowie__item-left-spacer,
+.libe-labowie__item-right-spacer {
+  height: 1px;
+  flex-shrink: 0;
+  flex-grow: 0;
+}
+
+.libe-labowie__item-photo {
+  margin-bottom: .5rem;
+  height: fit-content;
+  background-size: cover;
+  background-position: center;
+}
+
+.libe-labowie__item-photo,
+.libe-labowie__item-photo img {
+  width: 100%;
+}
+
+.libe-labowie__item-photo img {
+  display: block;
+  opacity: 0;
+}
+
+.libe-labowie__item-name .lblb-paragraph {
+  font-weight: 800;
+}
+
+@media screen and (max-width: 63rem) {
+  .libe-labowie__chapter-name {
+    margin-bottom: 1.5rem;
+  }
+
+  .libe-labowie__chapter-name-desktop {
+    display: none;
+  }
+
+  .libe-labowie__chapter-name-mobile {
+    display: flex;
+    padding: 3rem;
+  }
+
+  .libe-labowie__items {
+    flex-direction: row;
+    flex-wrap: nowrap;
+    overflow-x: scroll;
+  }
+
+  .libe-labowie__item {
+    width: 70%;
+    margin-bottom: 1rem;
+  }
+
+  .libe-labowie__item-left-spacer,
+  .libe-labowie__item-right-spacer {
+    width: calc(15% - .5rem);
+  }
+}
+
+@media screen and (max-width: 40rem) {
+  .libe-labowie__chapter-name-mobile {
+    padding: 2rem;
+  }
+
+  .libe-labowie__item {
+    width: 80%;
+  }
+
+  .libe-labowie__item-left-spacer,
+  .libe-labowie__item-right-spacer {
+    width: calc(10% - .5rem);
+  }
+}
 
