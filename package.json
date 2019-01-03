@@ -7,8 +7,10 @@
     "libe-utils": "^0.2.0",
     "moment": "^2.23.0",
     "react": "^16.7.0",
+    "react-date-picker": "^7.1.1",
     "react-dom": "^16.7.0",
-    "react-scripts": "^2.1.1"
+    "react-scripts": "^2.1.1",
+    "react-youtube": "^7.8.0"
   },
   "scripts": {
     "start": "react-scripts start",
