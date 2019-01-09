@@ -6,6 +6,7 @@ import 'moment/locale/fr'
 
 import SectionTitle from 'libe-components/lib/text-levels/SectionTitle'
 import Paragraph from 'libe-components/lib/text-levels/Paragraph'
+import Slug from 'libe-components/lib/text-levels/Slug'
 import squareImg from './assets/square.jpg'
 import closeIcon from './assets/close-icon.svg'
 import randomIcon from './assets/random-icon.svg'
@@ -44,7 +45,7 @@ export default class LibeLaBowie extends Component {
     this.scrollToAndActivateDate = this.scrollToAndActivateDate.bind(this)
     this.$getClosestParent = this.$getClosestParent.bind(this)
     this.fetchData()
-    window.setTimeout(() => this.stretchCoverPanels(), 800)
+    window.setTimeout(() => this.stretchCoverPanels(), 1200)
     window.setInterval(() => this.replaceInstruction(), 4000)
   }
 
@@ -103,7 +104,16 @@ export default class LibeLaBowie extends Component {
           periods.map((period, i) => (
             <section className={`${c}__chapter`} key={i}>
               <div className={`${c}__chapter-name`}>
-                <div className={`${c}__chapter-name-desktop`}><SectionTitle level={2}>{period.period}</SectionTitle></div>
+                <div className={`${c}__chapter-name-desktop`}>
+                  <div className={`${c}__chapter-timespan`}><Slug>{
+                    (() => {
+                      const startYear = moment(period.start_date, 'DD/MM/YYYY').format('YYYY')
+                      const endYear = moment(period.end_date, 'DD/MM/YYYY').format('YYYY')
+                      return `${startYear} – ${endYear}`
+                    })()
+                  }</Slug></div>
+                  <SectionTitle level={2}>{period.period}</SectionTitle>
+                </div>
                 <div className={`${c}__chapter-name-mobile`}><SectionTitle level={2}>{period.period}</SectionTitle></div>
               </div>
               <div className={`${c}__chapter-content`}><Paragraph>{period.text}</Paragraph></div>
@@ -144,16 +154,24 @@ export default class LibeLaBowie extends Component {
         <div className={`${c}__player-panel-spacer`} />
       </div>
       <div className={`${c}__player-panel`}>
-        <div className={`${c}__player`}>{
-          (() => {
-            const id = state.active_single_id
-            if (id === null) return ''
-            const activeSingle = singles.filter(s => s.id === id)[0]
-            const { single_url: singleUrl } = activeSingle
-            const videoId = singleUrl.replace('https://youtu.be/', '')
-            return <YouTube videoId={videoId} />
-          })()
-        }</div>
+        {(() => {
+          const id = state.active_single_id
+          if (id === null) return ''
+          const selectedDate = state.selected_date
+          const displaySelectedDate = moment(selectedDate, 'x').format('Do MMMM YYYY')
+          const activeSingle = singles.filter(s => s.id === id)[0]
+          const { single_url: singleUrl } = activeSingle
+          const videoId = singleUrl.replace('https://youtu.be/', '')
+          return <div className={`${c}__player`}>
+            <div className={`${c}__active-single-info`}>
+              <Paragraph>Le {displaySelectedDate}, vous écoutiez <span>{activeSingle.single_name}</span></Paragraph>
+              <div className={`${c}__share-active-single`}>
+                Share !
+              </div>
+            </div>
+            <YouTube videoId={videoId} />
+          </div>
+        })()}
         <button className={`${c}__player-panel-close`}
           onClick={e => this.setState({ active_single_id: null })}>
           <img src={closeIcon} />
@@ -221,7 +239,7 @@ export default class LibeLaBowie extends Component {
       const { state } = this
       if (state.intro_page) {
         this.setState({ intro_page: false })
-        window.setTimeout(a => resolve(true), 200)
+        window.setTimeout(a => resolve(true), 500)
       } else {
         resolve()  
       }
@@ -309,12 +327,11 @@ export default class LibeLaBowie extends Component {
     const { id: latestSingleId } = latestSingle
     const $latestSingle = document.querySelector(`.${c}__item[data-single-id="${latestSingleId}"]`)
     const $latestSingleContainer = this.$getClosestParent($latestSingle, `.${c}__items`)
+    const $latestSingleChapter = this.$getClosestParent($latestSingle, `.${c}__chapter`).querySelector(`.${c}__chapter-name`)
     const browserHeight = Math.max(document.documentElement.clientHeight, window.innerHeight || 0)
-    const browserWidth = Math.max(document.documentElement.clientWidth, window.innerWidth || 0)
-    const eltHeight = $latestSingle.offsetHeight
-    const eltWidth = $latestSingle.offsetWidth
+    const chapterHeight = $latestSingleChapter.offsetHeight
     const offsetX = $latestSingle.offsetLeft
-    const offsetY = $latestSingle.offsetTop + (eltHeight / 2) - (browserHeight / 6)
+    const offsetY = $latestSingleChapter.offsetTop + chapterHeight - (browserHeight / 6)
     window.scroll({
       top: offsetY,
       left: 0,

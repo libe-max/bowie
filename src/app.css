@@ -45,16 +45,9 @@
   position: fixed;
   left: 40rem;
   width: 60rem;
-  height: 20rem;
   bottom: 0;
-  background: rgba(33, 33, 33, .98);
+  background: #212121;
   box-shadow: 0 -.25rem 0 0 rgba(33, 33, 33, .4);
-}
-
-.libe-labowie__player-panel-spacer {
-  display: none;
-  width: 100%;
-  height: 20rem;
 }
 
 /* Intro state */
@@ -144,11 +137,6 @@
   .libe-labowie__player-panel {
     left: 0;
     width: 100%;
-    height: 13rem;
-  }
-
-  .libe-labowie__player-panel-spacer {
-    height: 13rem;
   }
 
   .libe-labowie_intro .libe-labowie__cover-panel-wrapper,
@@ -292,40 +280,62 @@
  *
  * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 
-.libe-labowie__player-panel
-  .libe-labowie__player {
-    position: absolute;
-    top: 0;
-    left: 0;
-    width: 100%;
-    height: 100%;
+.libe-labowie__player {
+  width: 100%;
+  /*height: 20rem;*/
 }
 
-.libe-labowie__player-panel
+.libe-labowie__player-panel-spacer {
+  display: none;
+  width: 100%;
+  height: 20rem;
+}
+
+.libe-labowie__active-single-info {
+  display: flex;
+  justify-content: space-between;
+  padding: 1rem;
+}
+
+.libe-labowie__active-single-info
+  .lblb-paragraph {
+    color: white;
+}
+
+.libe-labowie__player
+  iframe {
+    width: 100%;
+    height: 20rem;
+}
+
+.libe-labowie__player-panel-close {
+  position: absolute;
+  transform: translate(-100%, -50%);
+  top: 0;
+  left: calc(100% - .5rem);
+  width: 3rem;
+  height: 3rem;
+  border-radius: 3rem;
+  border: none;
+  padding: 0;
+  box-shadow: 0 0 .5rem 0 rgba(0, 0, 0, .4);
+  background: #212121;
+  cursor: pointer;
+}
+
+@media screen and (max-width: 63rem) {
+  .libe-labowie__player {
+    /*height: 13rem;*/
+  }
+
+  .libe-labowie__player-panel-spacer {
+    height: 13rem;
+  }
+
   .libe-labowie__player
     iframe {
-      position: absolute;
-      top: 0;
-      left: 0;
-      width: 100%;
-      height: 100%;
-      opacity: .8;
-}
-
-.libe-labowie__player-panel
-  .libe-labowie__player-panel-close {
-    position: absolute;
-    transform: translate(-100%, -50%);
-    top: 0;
-    left: calc(100% - .5rem);
-    width: 3rem;
-    height: 3rem;
-    border-radius: 3rem;
-    border: none;
-    padding: 0;
-    box-shadow: 0 0 .5rem 0 rgba(0, 0, 0, .4);
-    background: #212121;
-    cursor: pointer;
+      height: 13rem;
+  }
 }
 
 /* * * * * * * * * * * * * * * * * * * * * * * * * * * * *
@@ -344,6 +354,16 @@
   justify-content: flex-end;
   align-items: center;
   text-align: center;
+}
+
+.libe-labowie__chapter-timespan {
+  margin-bottom: 1rem;
+}
+
+.libe-labowie__chapter-timespan
+  .lblb-slug {
+    background: #212121;
+    color: #FFFE00;
 }
 
 .libe-labowie__chapter-content {
