@@ -2,7 +2,7 @@
   "name": "libe-apps-template",
   "version": "0.1.0",
   "private": true,
-  "homepage": "https://www.liberation.fr/apps/maxime/bowie",
+  "homepage": "https://www.liberation.fr/apps/2019/01/bowie",
   "dependencies": {
     "html-to-react": "^1.3.4",
     "libe-components": "^0.3.4",

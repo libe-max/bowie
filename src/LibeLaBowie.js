@@ -6,6 +6,7 @@ import 'moment/locale/fr'
 
 import SectionTitle from 'libe-components/lib/text-levels/SectionTitle'
 import Hat from 'libe-components/lib/text-levels/Hat'
+import ParagraphTitle from 'libe-components/lib/text-levels/ParagraphTitle'
 import Paragraph from 'libe-components/lib/text-levels/Paragraph'
 import Slug from 'libe-components/lib/text-levels/Slug'
 import AnnotationTitle from 'libe-components/lib/text-levels/AnnotationTitle'
@@ -15,6 +16,7 @@ import closeIcon from './assets/close-icon.svg'
 import randomIcon from './assets/random-icon.svg'
 import facebookIcon from './assets/facebook-icon.svg'
 import twitterIcon from './assets/twitter-icon.svg'
+import libeLaboLogo from './assets/libe-labo-logo.png'
 
 import { parseTsvWithTabs } from 'libe-utils/parse-tsv'
 import { spreadsheet } from './config.json'
@@ -50,6 +52,7 @@ export default class LibeLaBowie extends Component {
     this.handleRandomButtonClick = this.handleRandomButtonClick.bind(this)
     this.handleFacebookShare = this.handleFacebookShare.bind(this)
     this.handleTwitterShare = this.handleTwitterShare.bind(this)
+    this.handleTwitterShareArticle = this.handleTwitterShareArticle.bind(this)
     this.stretchCoverPanels = this.stretchCoverPanels.bind(this)
     this.getChaptersWithBoundaries = this.getChaptersWithBoundaries.bind(this)
     this.checkAndReplaceSideImage = this.checkAndReplaceSideImage.bind(this)
@@ -99,27 +102,47 @@ export default class LibeLaBowie extends Component {
     return <div className={classes.join(' ')}>
       <div className={`${c}__cover-panel-wrapper`}>
         <div className={`${c}__cover-panel`}
-          style={{backgroundImage: `url(http://www.fubiz.net/wp-content/uploads/2017/08/davidbowie19670.jpg)`}}>
-          <div className={`${c}__page-title`}>
-            <SectionTitle huge level={1}>
-              Nos belles vies<br />sous Bowie
-            </SectionTitle>
-            <Hat small>Intro</Hat>
-          </div>
-          <div className={`${c}__date-picker-block`}>
-            <div className={`${c}__date-picker`}>
-              <input
-                type='date'
-                ref={n => {this.$datePicker = n}}
-                onChange={this.handleDateChange}
-                defaultValue={moment().format('YYYY-MM-DD')} />
-              <div className={`${c}__date-picker-label`}>
-                {this.h2r.parse(labels[state.active_label].value)}
-              </div>
+          style={{backgroundImage: `url(http://www.liberation.fr/apps/uploads/bowie/cover.jpg?r=r)`}}>
+          <div className={`${c}__cover-panel-inner`}>
+            <div className={`${c}__page-title`}>
+              <SectionTitle big level={1}>
+                Nos vies<br />sous Bowie
+              </SectionTitle>
             </div>
-            <button className={`${c}__random-date`}
-              onClick={this.handleRandomButtonClick}
-              style={{backgroundImage: `url(${randomIcon})`}} />
+            { state.intro_page
+              ? <div className={`${c}__page-intro ${c}__page-intro_desktop`}>
+                  <Paragraph><em>Libé</em> vous propose de revisiter les grandes dates de votre vie en parcourant la carrière de David Bowie, mort le 10 janvier 2016, à partir de l'intégralité des singles qu'il a publiés.</Paragraph>
+                </div>
+              : ''
+            }
+            { state.intro_page
+              ? <div className={`${c}__page-intro ${c}__page-intro_mobile`}>
+                  <Annotation>{`
+Revisitez les grands moments de votre vie en parcourant la carrière de Bowie. Entrez une date ci-dessous.`}
+                  </Annotation>
+                </div>
+              : ''
+            }
+            <div className={`${c}__date-picker-incentive`}>
+              <ParagraphTitle small>
+                Choisissez une date ci-dessous
+              </ParagraphTitle>
+            </div>
+            <div className={`${c}__date-picker-block`}>
+              <div className={`${c}__date-picker`}>
+                <input
+                  type='date'
+                  ref={n => {this.$datePicker = n}}
+                  onChange={this.handleDateChange}
+                  defaultValue={moment().format('YYYY-MM-DD')} />
+                <div className={`${c}__date-picker-label`}>
+                  {this.h2r.parse(labels[state.active_label].value)}
+                </div>
+              </div>
+              <button className={`${c}__random-date`}
+                onClick={this.handleRandomButtonClick}
+                style={{backgroundImage: `url(${randomIcon})`}} />
+            </div>
           </div>
         </div>
       </div>
@@ -180,10 +203,30 @@ export default class LibeLaBowie extends Component {
             </section>
           ))
         }</div>
-        <div className={`${c}__notes`}>Notes</div>
-        <div className={`${c}__credits`}>Credits</div>
-        <div className={`${c}__share`}>Share</div>
-        <div className={`${c}__lblb-logo`}>Logo !</div>
+        <div className={`${c}__credits`}>
+          <AnnotationTitle>Production</AnnotationTitle>
+          <Annotation>
+            Une application réalisée par Maxime Fabas et Guillaume Lecaplain pour Libé Labo.<br/>
+            Textes adaptés de <a href='https://next.liberation.fr/culture/2016/01/11/la-derniere-mort-de-david-bowie_1425797'>l'article paru le 11 janvier 2016</a> par Julien Gester et Didier Péron.
+          </Annotation>
+          <AnnotationTitle>Crédits photo</AnnotationTitle>
+          <Annotation>Rue des Archives / United Archives – GAMMA – Andre Csillag / Fastimage – Zumapress / Leemage – Christian Rose / Fastimage – Luciano Viti / LUZphoto / Leemage – Jorgen Angel / Fastimage – GettyImages – AFP</Annotation>
+        </div>
+        <div className={`${c}__share`}>
+          <div className={`${c}__active-single-share-actions`}>
+            <button
+              className={`${c}__active-single-share-facebook`}
+              onClick={this.handleFacebookShare}
+              style={{backgroundImage: `url(${facebookIcon})`}} />
+            <button
+              className={`${c}__active-single-share-twitter`}
+              onClick={this.handleTwitterShareArticle}
+              style={{backgroundImage: `url(${twitterIcon})`}} />
+          </div>
+        </div>
+        <div className={`${c}__lblb-logo`}>
+          <a href='https://www.liberation.fr/libe-labo-data-nouveaux-formats,100538' target='_blank'><img src={libeLaboLogo} /></a>
+        </div>
         <div className={`${c}__player-panel-spacer`} />
       </div>
       <div className={`${c}__player-panel`}>
@@ -191,15 +234,28 @@ export default class LibeLaBowie extends Component {
           const id = state.active_single_id
           if (id === null) return ''
           const selectedDate = state.selected_date
-          const displaySelectedDate = moment(selectedDate, 'x').format('Do MMMM YYYY')
+          // const displaySelectedDate = moment(selectedDate, 'x').format('Do MMMM YYYY')
           const activeSingle = singles.filter(s => s.id === id)[0]
+          let latestSingle = singles[0]
+          singles.forEach(single => {
+            if (single.date.valueOf() <= selectedDate) latestSingle = single
+          })
+          let displaySelectedDate = ''
+          let sentence = ''
+          if (latestSingle.id === activeSingle.id) {
+            displaySelectedDate = moment(selectedDate, 'x').format('Do MMMM YYYY')
+            sentence = ', le dernier single de Bowie était'
+          } else {
+            displaySelectedDate = moment(activeSingle.date, 'x').format('Do MMMM YYYY')
+            sentence = ' David Bowie sortait un nouveau single'
+          }
           const { single_url: singleUrl } = activeSingle
           const videoId = singleUrl.replace('https://youtu.be/', '')
           return <div className={`${c}__player`}>
             <div className={`${c}__active-single-info`}>
               <div>
                 <div className={`${c}__active-single-label`}>
-                  <Annotation>Le {displaySelectedDate}, le dernier single de Bowie était :</Annotation>
+                  <Annotation>Le {displaySelectedDate}{sentence} :</Annotation>
                 </div>
                 <div className={`${c}__active-single-name`}>
                   <Paragraph>{activeSingle.single_name}</Paragraph>
@@ -411,12 +467,28 @@ export default class LibeLaBowie extends Component {
     const { singles } = data
     const id = state.active_single_id
     const activeSingle = singles.filter(s => s.id === id)[0]
+    let latestSingle = singles[0]
+    singles.forEach(single => {
+      if (single.date.valueOf() <= selectedDate) latestSingle = single
+    })
+    let displaySelectedDate = ''
+    if (latestSingle.id === activeSingle.id) displaySelectedDate = moment(selectedDate, 'x').format('Do MMMM YYYY')
+    else displaySelectedDate = moment(activeSingle.date, 'x').format('Do MMMM YYYY')
     const { single_name: singleName } = activeSingle
-    const displaySelectedDate = moment(selectedDate, 'x').format('Do MMMM YYYY')
-    
     const txt = `
-Le ${displaySelectedDate}, c'était un jour spécial pour moi et David Bowie venait de sortir ${singleName}.
+Le ${displaySelectedDate}, c'était un jour spécial pour moi et David Bowie venait de sortir «${singleName}».
  Et vous, quel single chantait-il lors des journées qui ont compté pour vous ?`
+    const features = 'width=575,height=400,menubar=no,toolbar=no'
+    const url = document.querySelector('meta[name="twitter:url"]').getAttribute('content')
+    const via = document.querySelector('meta[name="custom:tweet-via"]').getAttribute('content')
+    const tweet = `${txt} ${url} via ${via}`
+    const twitterUrl = `https://twitter.com/intent/tweet?original_referer=&text=${tweet}`
+    window.open(twitterUrl, '', features)
+  }
+
+  handleTwitterShareArticle (e) {
+    const txt = `
+Revisitez les grands moments de votre vie en parcourant la carrière de David Bowie`
     const features = 'width=575,height=400,menubar=no,toolbar=no'
     const url = document.querySelector('meta[name="twitter:url"]').getAttribute('content')
     const via = document.querySelector('meta[name="custom:tweet-via"]').getAttribute('content')

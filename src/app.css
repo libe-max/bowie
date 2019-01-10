@@ -23,7 +23,7 @@
 .libe-labowie__cover-panel {
   position: fixed;
   width: 40rem;
-  background: dodgerblue;
+  background: #212121;
 }
 
 .libe-labowie__content-panel {  
@@ -177,12 +177,45 @@
   padding: 2rem 1rem 10rem 1rem;
 }
 
+.libe-labowie__cover-panel-inner {
+  width: 100%;
+  max-width: 80%;
+}
+
+.libe-labowie__page-title {
+  margin-bottom: 1rem;
+}
 
 .libe-labowie__page-title
   .lblb-section-title h1 {
-    margin-bottom: 2rem;
-    text-align: center;
     color: #FFFE00;
+    text-shadow: 0 .125rem .125rem rgba(33, 33, 33, .8);
+}
+
+.libe-labowie__page-intro {
+  max-width: 500px;
+  margin-bottom: 2rem;
+}
+
+.libe-labowie__page-intro
+  .lblb-paragraph,
+.libe-labowie__page-intro
+  .lblb-annotation {
+    color: #FFFFFF;
+    text-shadow: 0 .125rem .125rem rgba(33, 33, 33, .8);
+}
+
+.libe-labowie__page-intro_mobile {
+  display: none;
+}
+
+.libe-labowie__date-picker-incentive {
+  margin-bottom: 2rem;
+}
+
+.libe-labowie__date-picker-incentive
+  .lblb-paragraph-title h4 {
+    color: #FFFFFF;
     text-shadow: 0 .125rem .125rem rgba(33, 33, 33, .8);
 }
 
@@ -218,7 +251,8 @@
   top: calc(100% + .5rem);
   font-family: 'Synthese';
   font-size: 1rem;
-  color: white;
+  color: #FFFFFF;
+  opacity: 0.8;
   text-shadow: 0 .125rem .125rem rgba(33, 33, 33, .8);
   transition: opacity 400ms;
 }
@@ -237,13 +271,40 @@
 
 @media screen and (max-width: 63rem) {
   .libe-labowie__cover-panel {
-    padding-bottom: 8rem;
+    padding-bottom: 3rem;
+  }
+
+  .libe-labowie__cover-panel-inner {
+    width: 100%;
+    max-width: unset;
+  }
+
+  .libe-labowie__page-title {
+    position: absolute;
+    top: 1rem;
+    left: 1rem;
+  }
+
+  .libe-labowie__page-intro_desktop {
+    display: none;
+  }
+
+  .libe-labowie__page-intro_mobile {
+    display: block;
+  }
+
+  .libe-labowie__date-picker-incentive {
+    display: none;
+  }
+
+  .libe-labowie__date-picker-label {
+    display: none;
   }
 }
 
 @media screen and (max-width: 40rem) {
   .libe-labowie__cover-panel {
-    padding-bottom: 6rem;
+    padding-bottom: 2rem;
   }
 }
 
@@ -256,6 +317,28 @@
 .libe-labowie__chapters,
 .libe-labowie__chapter {
   margin-bottom: 4rem;
+}
+
+.libe-labowie__credits {
+  margin-bottom: 3rem;
+}
+
+.libe-labowie__credits
+  .lblb-annotation-title {
+  margin-top: 2rem;
+  margin-bottom: 1rem;
+}
+
+.libe-labowie__share {
+  margin-bottom: 3rem;
+}
+
+.libe-labowie__lblb-logo {
+  width: 8rem;
+}
+
+.libe-labowie__lblb-logo img {
+  width: 100%;
 }
 
 @media screen and (max-width: 63rem) {
