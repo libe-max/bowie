@@ -5,11 +5,16 @@ import moment from 'moment'
 import 'moment/locale/fr'
 
 import SectionTitle from 'libe-components/lib/text-levels/SectionTitle'
+import Hat from 'libe-components/lib/text-levels/Hat'
 import Paragraph from 'libe-components/lib/text-levels/Paragraph'
 import Slug from 'libe-components/lib/text-levels/Slug'
+import AnnotationTitle from 'libe-components/lib/text-levels/AnnotationTitle'
+import Annotation from 'libe-components/lib/text-levels/Annotation'
 import squareImg from './assets/square.jpg'
 import closeIcon from './assets/close-icon.svg'
 import randomIcon from './assets/random-icon.svg'
+import facebookIcon from './assets/facebook-icon.svg'
+import twitterIcon from './assets/twitter-icon.svg'
 
 import { parseTsvWithTabs } from 'libe-utils/parse-tsv'
 import { spreadsheet } from './config.json'
@@ -35,23 +40,41 @@ export default class LibeLaBowie extends Component {
       active_label: 0,
       hide_label: false
     }
+    this.chaptersPositions = []
+    this.lastScrollEvent = 0
+    this.currentChapterId = 1
     this.fetchData = this.fetchData.bind(this)
     this.h2r = new Parser()
     this.leaveIntro = this.leaveIntro.bind(this)
     this.handleDateChange = this.handleDateChange.bind(this)
     this.handleRandomButtonClick = this.handleRandomButtonClick.bind(this)
+    this.handleFacebookShare = this.handleFacebookShare.bind(this)
+    this.handleTwitterShare = this.handleTwitterShare.bind(this)
     this.stretchCoverPanels = this.stretchCoverPanels.bind(this)
+    this.getChaptersWithBoundaries = this.getChaptersWithBoundaries.bind(this)
+    this.checkAndReplaceSideImage = this.checkAndReplaceSideImage.bind(this)
     this.replaceInstruction = this.replaceInstruction.bind(this)
     this.scrollToAndActivateDate = this.scrollToAndActivateDate.bind(this)
     this.$getClosestParent = this.$getClosestParent.bind(this)
     this.fetchData()
     window.setTimeout(() => this.stretchCoverPanels(), 1200)
-    window.setInterval(() => this.replaceInstruction(), 4000)
+    window.setInterval(() => this.getChaptersWithBoundaries(), 2000)
+    window.setTimeout(() => {
+      this.replaceInstruction()
+      window.setInterval(() => this.replaceInstruction(), 3500)
+    }, 2000)
+    window.addEventListener('scroll', this.checkAndReplaceSideImage)
   }
 
   componentWillUnmount () {
     window.clearTimeout(() => this.stretchCoverPanels())
-    window.clearInterval(() => this.replaceInstruction(), 4000)
+    window.clearInterval(() => this.getChaptersWithBoundaries(), 2000)
+    window.clearTimeout(() => {
+      this.replaceInstruction()
+      window.setInterval(() => this.replaceInstruction(), 3500)
+    })
+    window.clearInterval(() => this.replaceInstruction(), 3500)
+    window.removeEventListener('scroll', e => console.log(e))
   }
 
   render () {
@@ -79,8 +102,9 @@ export default class LibeLaBowie extends Component {
           style={{backgroundImage: `url(http://www.fubiz.net/wp-content/uploads/2017/08/davidbowie19670.jpg)`}}>
           <div className={`${c}__page-title`}>
             <SectionTitle huge level={1}>
-              Nos vies<br />sous Bowie
+              Nos belles vies<br />sous Bowie
             </SectionTitle>
+            <Hat small>Intro</Hat>
           </div>
           <div className={`${c}__date-picker-block`}>
             <div className={`${c}__date-picker`}>
@@ -102,7 +126,7 @@ export default class LibeLaBowie extends Component {
       <div className={`${c}__content-panel`}>
         <div className={`${c}__chapters`}>{
           periods.map((period, i) => (
-            <section className={`${c}__chapter`} key={i}>
+            <section className={`${c}__chapter`} data-id={period.id} key={i}>
               <div className={`${c}__chapter-name`}>
                 <div className={`${c}__chapter-name-desktop`}>
                   <div className={`${c}__chapter-timespan`}><Slug>{
@@ -114,9 +138,14 @@ export default class LibeLaBowie extends Component {
                   }</Slug></div>
                   <SectionTitle level={2}>{period.period}</SectionTitle>
                 </div>
-                <div className={`${c}__chapter-name-mobile`}><SectionTitle level={2}>{period.period}</SectionTitle></div>
+                <div className={`${c}__chapter-name-mobile`}
+                  style={{backgroundImage: `url(${period.image})`}}>
+                  <SectionTitle level={2}>{period.period}</SectionTitle>
+                </div>
               </div>
-              <div className={`${c}__chapter-content`}><Paragraph>{period.text}</Paragraph></div>
+              <div className={`${c}__chapter-content`}>
+                <Paragraph>{period.text}</Paragraph>
+              </div>
               <div className={`${c}__items`}>
                 <div className={`${c}__item-left-spacer`} />
                 {(() => {
@@ -137,8 +166,12 @@ export default class LibeLaBowie extends Component {
                         style={{backgroundImage: `url(${single.single_image})`}}>
                         <img alt='Technical helper for square div' src={squareImg} />
                       </div>
-                      <div className={`${c}__item-name`}><Paragraph>{single.single_name}</Paragraph></div>
-                      <div className={`${c}__item-label`}><Paragraph>{single.display_date}</Paragraph></div>
+                      <div className={`${c}__item-name`}>
+                        <Paragraph>{single.single_name}</Paragraph>
+                      </div>
+                      <div className={`${c}__item-label`}>
+                        <Paragraph>{single.display_date}</Paragraph>
+                      </div>
                     </div>
                   })
                 })()}
@@ -164,9 +197,28 @@ export default class LibeLaBowie extends Component {
           const videoId = singleUrl.replace('https://youtu.be/', '')
           return <div className={`${c}__player`}>
             <div className={`${c}__active-single-info`}>
-              <Paragraph>Le {displaySelectedDate}, vous écoutiez <span>{activeSingle.single_name}</span></Paragraph>
-              <div className={`${c}__share-active-single`}>
-                Share !
+              <div>
+                <div className={`${c}__active-single-label`}>
+                  <Annotation>Le {displaySelectedDate}, le dernier single de Bowie était :</Annotation>
+                </div>
+                <div className={`${c}__active-single-name`}>
+                  <Paragraph>{activeSingle.single_name}</Paragraph>
+                </div>
+              </div>
+              <div className={`${c}__active-single-share`}>
+                <div className={`${c}__active-single-share-label`}>
+                  <AnnotationTitle>Partager</AnnotationTitle>
+                </div>
+                <div className={`${c}__active-single-share-actions`}>
+                  <button
+                    className={`${c}__active-single-share-facebook`}
+                    onClick={this.handleFacebookShare}
+                    style={{backgroundImage: `url(${facebookIcon})`}} />
+                  <button
+                    className={`${c}__active-single-share-twitter`}
+                    onClick={this.handleTwitterShare}
+                    style={{backgroundImage: `url(${twitterIcon})`}} />
+                </div>
               </div>
             </div>
             <YouTube videoId={videoId} />
@@ -203,19 +255,20 @@ export default class LibeLaBowie extends Component {
         }
       }, {
         start: 8,
-        end: 12,
+        end: 14,
         keysLinePos: 1,
         types: {
+          id: 'number',
           start_date: val => moment(val, 'DD/MM/YYYY'),
           end_date: val => moment(val, 'DD/MM/YYYY'),
         }
       }, {
-        start: 13,
-        end: 13,
+        start: 15,
+        end: 15,
         keysLinePos: 1
       }, {
-        start: 14,
-        end: 14,
+        start: 16,
+        end: 16,
         keysLinePos: 1
       }]
     })
@@ -235,6 +288,7 @@ export default class LibeLaBowie extends Component {
   }
 
   leaveIntro () {
+    this.getChaptersWithBoundaries()
     return new Promise((resolve, reject) => {
       const { state } = this
       if (state.intro_page) {
@@ -257,6 +311,48 @@ export default class LibeLaBowie extends Component {
     document.querySelector(`.${c}__cover-panel-wrapper`).style.height = `calc(${vh}px - ${bodyPadding})`
     document.querySelector(`.${c}__cover-panel`).style.height = `calc(${vh}px - ${bodyPadding})`
     document.querySelectorAll(`.${c}__chapter-name-mobile`).forEach(elt => elt.style.height = `calc(${vh}px - ${bodyPadding})`)
+  }
+
+  getChaptersWithBoundaries () {
+    const { state, c } = this
+    const { data } = state
+    const periods = data ? data.periods : []
+    if (state.intro_page) return
+    const $chapters = document.querySelectorAll(`.${c}__chapter`)
+    const browserHeight = Math.max(window.innerHeight, window.innerHeight || 0)
+    const res = []
+    $chapters.forEach(node => {
+      const treshold = node.offsetTop - browserHeight / 3
+      const id = parseInt(node.getAttribute('data-id'), 10)
+      const period = periods.filter(s => s.id === id)[0]
+      res.push({ treshold, period })
+    })
+    this.chaptersPositions = res
+  }
+
+  checkAndReplaceSideImage (e) {
+    this.lastScrollEvent = moment().valueOf()
+    window.setTimeout(() => {
+      const now = moment().valueOf()
+      const endScroll = (now - this.lastScrollEvent) >= 148
+      if (!endScroll) return
+      const { chaptersPositions, c } = this
+      const scrollLevel = document.documentElement.scrollTop
+      let currentChapter = chaptersPositions[chaptersPositions.length - 1]
+      chaptersPositions.some((chapter, i) => {
+        if (chapter.treshold > scrollLevel) {
+          if (i === 0) currentChapter = chapter
+          else currentChapter = chaptersPositions[i - 1]
+          return true
+        }
+      })
+      if (currentChapter) {
+        if (currentChapter.period.id === this.currentChapterId) return
+        this.currentChapterId = currentChapter.period.id
+        document.querySelector(`.${c}__cover-panel`).style.transition = 'background-image 200ms'
+        document.querySelector(`.${c}__cover-panel`).style.backgroundImage = `url(${currentChapter.period.image})`
+      }
+    }, 150)
   }
 
   replaceInstruction () {
@@ -300,6 +396,33 @@ export default class LibeLaBowie extends Component {
     const randomDate = Math.random() * timespan + minDate
     this.$datePicker.value = moment(randomDate, 'x').format('YYYY-MM-DD')
     this.scrollToAndActivateDate(randomDate)
+  }
+
+  handleFacebookShare (e) {
+    const articleUrl = document.querySelector('meta[property="og:url"]').getAttribute('content')
+    const facebookUrl = 'http://www.facebook.com/sharer/sharer.php?u=' + articleUrl
+    const features = 'width=575,height=400,menubar=no,toolbar=no'
+    window.open(facebookUrl, '', features)
+  }
+
+  handleTwitterShare (e) {
+    const { state } = this
+    const { data, selected_date: selectedDate } = state
+    const { singles } = data
+    const id = state.active_single_id
+    const activeSingle = singles.filter(s => s.id === id)[0]
+    const { single_name: singleName } = activeSingle
+    const displaySelectedDate = moment(selectedDate, 'x').format('Do MMMM YYYY')
+    
+    const txt = `
+Le ${displaySelectedDate}, c'était un jour spécial pour moi et David Bowie venait de sortir ${singleName}.
+ Et vous, quel single chantait-il lors des journées qui ont compté pour vous ?`
+    const features = 'width=575,height=400,menubar=no,toolbar=no'
+    const url = document.querySelector('meta[name="twitter:url"]').getAttribute('content')
+    const via = document.querySelector('meta[name="custom:tweet-via"]').getAttribute('content')
+    const tweet = `${txt} ${url} via ${via}`
+    const twitterUrl = `https://twitter.com/intent/tweet?original_referer=&text=${tweet}`
+    window.open(twitterUrl, '', features)
   }
 
   scrollToAndActivateDate (val) {

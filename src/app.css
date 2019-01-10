@@ -37,7 +37,6 @@
   .libe-labowie__chapter-name-mobile {
     margin-left: -6rem;
     margin-right: -6rem;
-    background: dodgerblue;
 }
 
 .libe-labowie__player-panel {
@@ -125,7 +124,6 @@
     .libe-labowie__chapter-name-mobile {
       margin-left: -4rem;
       margin-right: -4rem;
-      background: red;
   }
 
   .libe-labowie__content-panel
@@ -154,7 +152,6 @@
     .libe-labowie__chapter-name-mobile {
       margin-left: -1.5rem;
       margin-right: -1.5rem;
-      background: red;
   }
 
   .libe-labowie__content-panel
@@ -267,6 +264,7 @@
     margin-bottom: 3rem;
   }
 }
+
 @media screen and (max-width: 40rem) {
   .libe-labowie__chapters,
   .libe-labowie__chapter {
@@ -282,7 +280,6 @@
 
 .libe-labowie__player {
   width: 100%;
-  /*height: 20rem;*/
 }
 
 .libe-labowie__player-panel-spacer {
@@ -297,9 +294,47 @@
   padding: 1rem;
 }
 
-.libe-labowie__active-single-info
+.libe-labowie__active-single-label {
+  margin-bottom: .5rem;
+}
+
+.libe-labowie__active-single-label
+  .lblb-annotation {
+    color: #999;
+}
+
+.libe-labowie__active-single-name
   .lblb-paragraph {
-    color: white;
+    color: #FFFFFF;
+}
+
+.libe-labowie__active-single-share {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: flex-end;
+}
+
+.libe-labowie__active-single-share-label
+  .lblb-annotation-title h5 {
+    color: #FFFFFF;
+}
+
+.libe-labowie__active-single-share-label {
+  margin-bottom: .5rem;
+  width: 100%;
+  text-align: right;
+}
+
+.libe-labowie__active-single-share-facebook,
+.libe-labowie__active-single-share-twitter {
+  width: 2rem;
+  height: 2rem;
+  background-size: cover;
+  background-position: center;
+  background-color: transparent;
+  border: none;
+  cursor: pointer;
+  margin-left: .5rem; 
 }
 
 .libe-labowie__player
@@ -310,8 +345,8 @@
 
 .libe-labowie__player-panel-close {
   position: absolute;
-  transform: translate(-100%, -50%);
-  top: 0;
+  transform: translate(-100%, -100%);
+  top: .5rem;
   left: calc(100% - .5rem);
   width: 3rem;
   height: 3rem;
@@ -350,10 +385,18 @@
 
 .libe-labowie__chapter-name-mobile {
   display: none;
+  background-size: cover;
+  background-position: center;
   flex-direction: column;
   justify-content: flex-end;
   align-items: center;
   text-align: center;
+}
+
+.libe-labowie__chapter-name-mobile
+  .lblb-section-title h2 {
+    color: #FFFE00;
+    text-shadow: 0 .125rem .125rem rgba(33, 33, 33, .8);
 }
 
 .libe-labowie__chapter-timespan {
