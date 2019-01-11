@@ -20,9 +20,6 @@ import libeLaboLogo from './assets/libe-labo-logo.png'
 
 import { parseTsvWithTabs } from 'libe-utils/parse-tsv'
 import { spreadsheet } from './config.json'
-/* Remove this once this app styles are pasted into
- * liberation.fr/apps/static/styles/apps.css */
-import './app.css'
 
 import smoothscroll from 'smoothscroll-polyfill'
 smoothscroll.polyfill()
