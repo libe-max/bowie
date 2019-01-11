@@ -206,7 +206,7 @@ Revisitez les grands moments de votre vie en parcourant la carrière de Bowie. E
         <div className={`${c}__credits`}>
           <AnnotationTitle>Production</AnnotationTitle>
           <Annotation>
-            Une application réalisée par Maxime Fabas et Guillaume Lecaplain pour Libé Labo.<br/>
+            Une application réalisée par Christelle Causse, Maxime Fabas et Guillaume Lecaplain pour Libé Labo.<br/>
             Textes adaptés de <a href='https://next.liberation.fr/culture/2016/01/11/la-derniere-mort-de-david-bowie_1425797'>l'article paru le 11 janvier 2016</a> par Julien Gester et Didier Péron.
           </Annotation>
           <AnnotationTitle>Crédits photo</AnnotationTitle>
