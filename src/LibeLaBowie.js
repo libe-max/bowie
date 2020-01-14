@@ -99,7 +99,7 @@ export default class LibeLaBowie extends Component {
     return <div className={classes.join(' ')}>
       <div className={`${c}__cover-panel-wrapper`}>
         <div className={`${c}__cover-panel`}
-          style={{backgroundImage: `url(http://www.liberation.fr/apps/uploads/bowie/cover.jpg?r=r)`}}>
+          style={{backgroundImage: `url(http://www.liberation.fr/apps/uploads/bowie/cover.jpg)`}}>
           <div className={`${c}__cover-panel-inner`}>
             <div className={`${c}__page-title`}>
               <SectionTitle big level={1}>
