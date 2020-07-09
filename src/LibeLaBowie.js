@@ -411,6 +411,7 @@ Revisitez les grands moments de votre vie en parcourant la carrière de Bowie. E
   replaceInstruction () {
     const { state } = this
     const { data, active_label: activeLabel } = state
+    if (!data) return
     const { labels } = data
     return new Promise((resolve, reject) => {
       this.setState({ hide_label: true })

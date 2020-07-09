@@ -1,3 +1,3 @@
 {
-  "spreadsheet": "https://docs.google.com/spreadsheets/d/e/2PACX-1vQeZWE7GmuxxDTTpTCFwcAgnsZCFAKxjn1wO_pLBVnRRpB1780KWsTHLcQbSPxmxw8s4Ber_4bzrg3m/pub?gid=813640254&single=true&output=tsv"
+  "spreadsheet": "./data.tsv"
 }
