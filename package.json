@@ -5,12 +5,12 @@
   "homepage": "https://www.liberation.fr/apps/2019/01/bowie",
   "dependencies": {
     "html-to-react": "^1.4.2",
-    "libe-components": "^0.3.5",
+    "libe-components": "^1.2.2",
     "libe-utils": "^0.2.1",
     "moment": "^2.24.0",
     "react": "^16.12.0",
     "react-dom": "^16.12.0",
-    "react-scripts": "^2.1.8",
+    "react-scripts": "^5.0.1",
     "react-youtube": "^7.9.0",
     "smoothscroll-polyfill": "^0.4.4"
   },
